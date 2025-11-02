@@ -1,7 +1,7 @@
-// import React from 'react';
 import Game from './components/Game';
 import Header from './components/Header';
 import Chat from './Chat';
+import { getRandomPersonaPrompt } from './randomGuy';
 // import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 
@@ -9,7 +9,9 @@ import Chat from './Chat';
 
 
 function App() {
-  return (<>
+  const PersonaPrompt = getRandomPersonaPrompt();
+  return (
+    
     <div>
       <Header />
       <h1>Who's that historical person?</h1>
