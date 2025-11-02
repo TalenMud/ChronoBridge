@@ -1,0 +1,37 @@
+@keyframes chaotic-spin {
+    0% {
+      transform: scale(1) rotate(0deg);
+      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+      box-shadow: 0 0 40px 20px rgba(255, 0, 0, 0.7);
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+  }
+  .chaotic-spin-animation {
+    /* you can change the duration here */
+    animation: chaotic-spin 1s ease-in-out;
+  }
+
+  @keyframes non-chaotic-spin {
+    0% {
+      transform: scale(1) rotate(0deg);
+      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+      box-shadow: 0 0 40px 20px rgba(0, 200, 0, 0.7);
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+      box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+  }
+  .non-chaotic-spin-animation {
+    /* you can change the duration here */
+    animation: non-chaotic-spin 1s ease-in-out;
+  }

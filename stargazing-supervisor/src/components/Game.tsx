@@ -53,7 +53,7 @@ const getRandomSubset = (array: PersonaPrompt[], count: number): PersonaPrompt[]
   return shuffled.slice(0, count);
 };
 
-function Game(props:{setCurrentConversationId:(id:string)=> void}) {
+function Game(props:{setCurrentConversationId:(id:string)=> void, setIsUserCorrect: (value: boolean | null) => void}){
   const remainingPersonas = personaList.filter(persona => persona.internalId !== chatbotPersona.internalId);
   const randomSubset = getRandomSubset(remainingPersonas, 3);
   // Use useState to store the 4 randomly selected personas.
@@ -118,6 +118,7 @@ function Game(props:{setCurrentConversationId:(id:string)=> void}) {
       const sound = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
       sound.play();
       alert(`Incorrect guess. The persona was ${buttonDisplayMap[personaID].text}. Your streak is broken!`);
+      props.setIsUserCorrect(false);
       // INCORRECT GUESS: Reset current streak
       setCurrentStreak(0);
     }
