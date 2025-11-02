@@ -10,7 +10,7 @@ import { getRandomPersonaPrompt } from './randomGuy';
 
 function App() {
   const PersonaPrompt = getRandomPersonaPrompt();
-  return (
+  return (<>
     
     <div>
       <Header />

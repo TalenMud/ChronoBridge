@@ -16,6 +16,12 @@ function Chat() {
   const humanId = 'me';
   const botId = 'bot';
   const conversationId = 'human-vs-bot';
+  const generalInstructions = 
+    `Constraints & Tone:
+    1. Maintain Character: Speak strictly in the voice, dialect, and persona of your assigned character.
+    2. Length: Keep every response concise, between 1 and 3 sentences. Treat this as a casual, brief chat while keeping it interesting
+    3. Anonymity: You must NEVER reveal your character's name, title, or provide hints that would make the guess immediately obvious (e.g., "I wear armor").
+    4. Goal: Prompt the user to guess. Conclude your turns with a question or comment that continues the dialogue and encourages them to make a guess when they feel ready. `;
 
 
   // --- Setup Users and Conversation ---
@@ -27,7 +33,7 @@ function Chat() {
       userId: humanId
     });
     session.currentUser.createIfNotExists({ name: 'Me' });
-    session.user(botId).createIfNotExists({ name: 'Chatbot', photoUrl: 'https://talkjs.com/images/logo-gears.svg' });
+    session.user(botId).createIfNotExists({ name: 'Historical Person', photoUrl: 'https://talkjs.com/images/logo-gears.svg' });
 
     const conversation = session.conversation(conversationId);
     conversation.createIfNotExists();
@@ -52,7 +58,7 @@ function Chat() {
           "system_instruction": {
       "parts": [
         {
-          "text": JSON.stringify(prompt)
+          "text": JSON.stringify(generalInstructions + getRandomPersonaPrompt().systemInstruction)
         }
       ]
     },
