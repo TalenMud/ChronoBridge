@@ -79,7 +79,8 @@ function Chat(props: ChatProps) {
           "system_instruction": {
       "parts": [
         {
-          "text": JSON.stringify(generalInstructions + getPersonaSystemInstruction())
+          "text": JSON.stringify(generalInstructions + getPersonaSystemInstruction() + 
+            " Do not give obvious hints and do not mention your identity or the dates.")
         }
       ]
     },
