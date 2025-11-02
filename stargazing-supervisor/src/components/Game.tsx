@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getOrSetPersona, getPersonaInternalId, overwritePersona } from '../personaStore.ts';
 import { personaList, type PersonaPrompt} from '../randomGuy.ts';
 
@@ -78,13 +78,12 @@ function Game(props:{setCurrentConversationId:(id:string)=> void}) {
       alert("Correct! You guessed the historical person!");
 
       // CORRECT GUESS: Increment current streak
-      const newStreak = currentStreak + 1;
-      setCurrentStreak(newStreak);
+      setCurrentStreak(currentStreak + 1);
 
-      if (newStreak > bestStreak) {
-        setBestStreak(newStreak);
+      if (currentStreak > bestStreak) {
+        setBestStreak(currentStreak);
         // Save the new best streak to Local Storage
-        localStorage.setItem('personaBestStreak', newStreak.toString());
+        localStorage.setItem('personaBestStreak', currentStreak.toString());
       }
     } else {
       alert(`Incorrect guess. The persona was ${buttonDisplayMap[personaID].text}. Your streak is broken!`);
@@ -118,7 +117,7 @@ function Game(props:{setCurrentConversationId:(id:string)=> void}) {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }
 
