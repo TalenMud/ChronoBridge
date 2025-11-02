@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 function Header(){
     return(
-         <h1 className="text-3xl font-bold">ChronoBridge</h1>
+        <div>
+         <h1 className="title">CHRONO|BRIDGE</h1>
+         <h2 className="subheading">by no_sleep</h2>
+        </div>
+         
     );
 }
 
