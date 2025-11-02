@@ -1,39 +1,47 @@
 import React, { useState, useEffect } from 'react';
 
+
 function Game() {
+  const [guess, setGuess] = useState("none");
+
+  function setAndLog(guessValue: string) {
+    setGuess(guessValue);
+    console.log("Guess selected:", guess);
+  }
+
   return (
     <>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>Caveman 🧌</button>
+          onClick={() => setAndLog("Caveman")}>Caveman 🧌</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>Ancient Egyptian Scribe 🛕</button>
+          onClick={() => setAndLog("AncientEgyptianScribe")}>Ancient Egyptian Scribe 🛕</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>Greek Philosopher 🏛️</button>
+          onClick={() => setAndLog("GreekPhilosopher")}>Greek Philosopher 🏛️</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>Middle Age Wizard 🪄</button>
+          onClick={() => setAndLog("Wizard")}>Middle Age Wizard 🪄</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>Victorian Child Worker 👧🏻</button>
+          onClick={() => setAndLog("ChildWorker")}>Victorian Child Worker 👧🏻</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>WW2 Soldier 🪖</button>
+          onClick={() => setAndLog("SoldierWW2")}>WW2 Soldier 🪖</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>80s Teen 👦</button>
+          onClick={() => setAndLog("Teen80s")}>80s Teen 👦</button>
       </div>
       <div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 rounded-full" 
-          onClick={() => alert('Guess!')}>Vampire 🦇</button>
+          onClick={() => setAndLog("Vampire")}>Vampire 🦇</button>
       </div>
     </>
   );
