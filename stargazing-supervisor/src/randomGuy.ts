@@ -4,14 +4,14 @@
  * define the chatbot's role, rules, and tone for the Gemini API.
  * The 'internalId' is only for internal tracking, not for the user.
  */
-interface PersonaPrompt {
+export interface PersonaPrompt {
     internalId: string; // Used internally, not revealed to the user
     period: string; // A vague hint about the time frame
     systemInstruction: string;
   }
   
   // List of 6 cursed BaristaBot personas, stripped of names and designed to resist identity guessing.
-  const personaList: PersonaPrompt[] = [
+  export const personaList: PersonaPrompt[] = [
   {
         internalId: 'Caveman',
         period: 'Upper Paleolithic (c. 40,000 BCE)',
