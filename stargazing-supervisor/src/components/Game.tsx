@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getPersonaInternalId, overwritePersona } from '../personaStore.ts';
+import { getOrSetPersona, getPersonaInternalId, overwritePersona } from '../personaStore.ts';
 import { personaList, type PersonaPrompt} from '../randomGuy.ts';
+
+
+const chatbotPersona = getOrSetPersona();
+const getBestStreak = (): number => {
+  const storedStreak = localStorage.getItem('personaBestStreak');
+  return storedStreak ? parseInt(storedStreak, 10) : 0;
+};
+
 
 // Define a map for button text and emojis (since they are not in the list object)
 const buttonDisplayMap: { [key: string]: { text: string; emoji: string } } = {
@@ -26,38 +34,75 @@ const getRandomSubset = (array: PersonaPrompt[], count: number): PersonaPrompt[]
 };
 
 function Game(props:{setCurrentConversationId:(id:string)=> void}) {
-
+  const remainingPersonas = personaList.filter(persona => persona.internalId !== chatbotPersona.internalId);
+  const randomSubset = getRandomSubset(remainingPersonas, 3);
   // Use useState to store the 4 randomly selected personas.
   // The function passed to useState runs once on the initial render.
   const [buttonPersonas, setButtonPersonas] = useState<PersonaPrompt[]>(() => 
-    getRandomSubset(personaList, 4)
+    [...randomSubset, chatbotPersona].sort(() => 0.5 - Math.random())
   );
+
+  // State for the current consecutive correct guesses
+  const [currentStreak, setCurrentStreak] = useState(0); 
+
+  // State for the all-time best consecutive correct guesses, loaded from storage
+  const [bestStreak, setBestStreak] = useState<number>(getBestStreak);
 
   function resetGame(){
     overwritePersona();
     props.setCurrentConversationId(`human-vs-bot-${crypto.randomUUID()}`);
     
-    // IMPORTANT: When you reset the game, you should generate a new random set of buttons
-    setButtonPersonas(getRandomSubset(personaList, 4));
+    // Get the current persona used by the chatbot
+  const chatbotPersona = getOrSetPersona();
+
+  // Generate a random subset excluding the chatbot's persona
+  const remainingPersonas = personaList.filter(persona => persona.internalId !== chatbotPersona.internalId);
+  const randomSubset = getRandomSubset(remainingPersonas, 3);
+
+    
+    // Add the chatbot's persona to the list and shuffle
+  const newButtonPersonas = [...randomSubset, chatbotPersona].sort(() => 0.5 - Math.random());
+
+  // Update the state with the new button personas
+  setButtonPersonas(newButtonPersonas);
   }
 
   function checkID(guessValue: string) {
     const personaID = getPersonaInternalId();
+    if (personaID == null) {
+      return;
+    } 
     console.log("Persona ID:", personaID);
     console.log("Guess Value:", guessValue);
     if (personaID === guessValue) {
       alert("Correct! You guessed the historical person!");
+
+      // CORRECT GUESS: Increment current streak
+      const newStreak = currentStreak + 1;
+      setCurrentStreak(newStreak);
+
+      if (newStreak > bestStreak) {
+        setBestStreak(newStreak);
+        // Save the new best streak to Local Storage
+        localStorage.setItem('personaBestStreak', newStreak.toString());
+      }
     } else {
-      alert("Incorrect guess. Try again!");
+      alert(`Incorrect guess. The persona was ${buttonDisplayMap[personaID].text}. Your streak is broken!`);
+      // INCORRECT GUESS: Reset current streak
+      setCurrentStreak(0);
     }
     resetGame();
   }
 
-  // Use slice(0, 4) to get only the first 4 items from the list
-  const limitedPersonas = personaList.slice(0, 4);
+  
 
   return (
     <>
+      <div className="text-center mb-4">
+        <h2 className="text-xl font-semibold text-white-800">
+            🔥 Current Streak: {currentStreak} | 🏆 Best Streak: {bestStreak}
+        </h2>
+      </div>
       <div className="flex flex-col">
         {/* Map over the state variable which holds the 4 random personas */}
         {buttonPersonas.map((persona) => {
