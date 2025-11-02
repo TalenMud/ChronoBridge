@@ -7,9 +7,19 @@ const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 import { markdownToContent } from "./toContent.ts";
 import { contentToMarkdown } from "./toMarkdown.ts";
 import { getPersonaSystemInstruction } from './personaStore.ts';
+import './app.css'; 
+
+interface ChatProps {
+  currentConversationId: string;
+  isUserCorrect: boolean | null;
+  setIsUserCorrect: (value: boolean | null) => void;
+}
 
 
-function Chat(props:{currentConversationId:string}) {
+
+function Chat(props: ChatProps) {
+  const [isSpinning, setIsSpinning] = useState(false);
+  
   const appId = 'tY7b9ysM'; // Your Durhack App ID
   const humanId = 'me';
   const botId = 'bot';
@@ -20,6 +30,19 @@ function Chat(props:{currentConversationId:string}) {
     2. Length: Keep every response concise, between 1 and 3 sentences. Treat this as a casual, brief chat while keeping it interesting
     3. Anonymity: You must NEVER reveal your character's name, title, or provide hints that would make the guess immediately obvious (e.g., "I wear armor").
     4. Goal: Prompt the user to guess. Conclude your turns with a question or comment that continues the dialogue and encourages them to make a guess when they feel ready. `;
+
+    useEffect(() => {
+      if (!props.isUserCorrect) {
+        triggerTheChaos();
+        // Reset the flag after triggering
+        setTimeout(() => props.setIsUserCorrect(null), 1100);
+      }
+    }, [props.isUserCorrect]);
+  
+    const triggerTheChaos = () => {
+      setIsSpinning(true);
+      setTimeout(() => setIsSpinning(false), 1000);
+    };
 
 
   // --- Setup Users and Conversation ---
@@ -96,8 +119,12 @@ function Chat(props:{currentConversationId:string}) {
   }, [appId, conversationId]);
 
   return (
+    <div className={isSpinning ? 'chaotic-spin-animation' : ''}>
     <Chatbox
-      style={{ width: '100%', height: '500px' }}
+      style={{ width: '100%', height: '500px' 
+
+        
+      }}
       // @ts-ignore
       host="durhack.talkjs.com"
       appId={appId}
@@ -105,6 +132,7 @@ function Chat(props:{currentConversationId:string}) {
       conversationId={conversationId}
       onSendMessage={handleSendMessage}
     />
+    </div>
   );
 }
 
