@@ -1,24 +1,27 @@
 import Game from './components/Game';
 import Header from './components/Header';
+import Timeline from './components/Timeline';
 import Chat from './Chat';
 import { useState } from 'react';
 import { getOrSetPersona } from './personaStore.ts';
 
 
 function App() {
-  getOrSetPersona();
-
-  const [currentConversationId, setCurrentConversationId] = useState(() => `human-vs-bot-${crypto.randomUUID()}`);
+  const PersonaPrompt = getRandomPersonaPrompt();
+  return (<>
   
-  return (<>    
-    <div>
-      <Header />
-      <h1>Who's that historical person?</h1>
-      <div className="flex flex-row gap-4">
-        <Chat currentConversationId={currentConversationId}/>
-        <Game setCurrentConversationId={setCurrentConversationId}/>
+    
+      <div>
+        <Header />
+        <h3>A journey through time...</h3>
+        <div className='chat-frame'>
+          <div className='chat-container'>
+            <Chat />
+          </div>
+        </div>
+        <h4>Choose wisely...</h4>
+        <Game />
       </div>
-    </div>
     </>
   );  
 }
